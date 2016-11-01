@@ -16,7 +16,7 @@ public class CPlayer : MonoBehaviour
 
 
     public GameObject water_ball;
-    private float speed = 0.05f;
+    private float speed = 0.1f;
     public static   int wball_cnt = 0;
     public static GameObject static_wball;
     public Texture2D []texture = new Texture2D[9];
@@ -174,9 +174,6 @@ public class CPlayer : MonoBehaviour
 
     public void BeginMove()
     {
-
-   //     this.target.SetBool(this.parameters.moving, true);
-   //     this.cououtine = StartCoroutine(this.Move());
     }
 
     public void EndMove()
@@ -201,8 +198,6 @@ public class CPlayer : MonoBehaviour
             else
             {
                 direct = PLAYER_DIRECTION.LEFT;
-            //    Debug.Log("@@@@@@@@@@@@ 3");
-            //    player_move(PLAYER_DIRECTION.LEFT);
             }
         }
         else
@@ -225,11 +220,7 @@ public class CPlayer : MonoBehaviour
             {
                 if (gameObject.transform.position.x <= 7.5f)
                 {
-                    //    Debug.Log("@@@@@@@@@@@@ RIGHT");
-                    //    if (r.velocity.x <1.0f)
-                    //        r.AddForce(new Vector2(this.MoveForce * 0.1f, 0));
                     gameObject.transform.position += new Vector3(speed, 0, 0);
-                //    r.velocity = new Vector2(speed, 0);
                 }
             }
         }
@@ -238,13 +229,9 @@ public class CPlayer : MonoBehaviour
             set_player_pic(PLAYER_DIRECTION.LEFT);
             if (restricted_area(gameObject.transform.position.x, gameObject.transform.position.y, PLAYER_DIRECTION.LEFT) == false)
             {
-            //    Debug.Log("@@@@@@@@@@@@ LEFT");
                 if (gameObject.transform.position.x >= -7.5)
                 {
-                    //        if (r.velocity.x > -1.0f)
-                    //            r.AddForce(Vector2.left * this.MoveForce * 0.1f);
                     gameObject.transform.position += new Vector3(-speed, 0, 0);
-                    //r.velocity = new Vector2(-speed, 0);
                 }
             }
         }
@@ -255,9 +242,11 @@ public class CPlayer : MonoBehaviour
             {
                 if (gameObject.transform.position.y <= 4.5f)
                 {
-                    //r.AddForce(Vector2.up * this.MoveForce * 0.1f);
                     gameObject.transform.position += new Vector3(0, speed, 0);
-                    //r.velocity = new Vector2(0.0f, speed);
+                    gameObject.layer = (int)((4.5f - gameObject.transform.position.y)) + 8;
+                    if (4.5f - gameObject.transform.position.y != 0.0f)
+                        gameObject.layer++;
+                    Debug.Log("@@@@@@@@layer = " + gameObject.layer + ", y = " + gameObject.transform.position.y);
                 }
             }
         }
@@ -268,11 +257,17 @@ public class CPlayer : MonoBehaviour
             {
                 if (gameObject.transform.position.y >= -4.5f)
                 {
-            //        r.AddForce(Vector2.down * this.MoveForce * 0.1f);
                     gameObject.transform.position += new Vector3(0, -speed, 0);
-            //        r.velocity = new Vector2(0.0f, -speed);
+                    gameObject.layer = (int)((4.5f - gameObject.transform.position.y)) + 8;
+                    if (4.5f - gameObject.transform.position.y != 0.0f)
+                        gameObject.layer++;
+                    Debug.Log("@@@@@@@@layer = " + gameObject.layer + ", y = " + gameObject.transform.position.y);
                 }
             }
+        }
+        else
+        {
+            r.velocity = new Vector2(0.0f, 0.0f);
         }
         
         direct = dir;
