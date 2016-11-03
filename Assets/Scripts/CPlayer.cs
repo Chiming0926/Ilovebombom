@@ -242,10 +242,13 @@ public class CPlayer : MonoBehaviour
             {
                 if (gameObject.transform.position.y <= 4.5f)
                 {
+                    var sr = this.GetComponent<SpriteRenderer>();
                     gameObject.transform.position += new Vector3(0, speed, 0);
-                    gameObject.layer = (int)((4.5f - gameObject.transform.position.y)) + 8;
+                    sr.sortingOrder = (int)((4.5f - gameObject.transform.position.y)) + 7;
                     if (4.5f - gameObject.transform.position.y != 0.0f)
-                        gameObject.layer++;
+                    {
+                        sr.sortingOrder++;
+                    }
                     Debug.Log("@@@@@@@@layer = " + gameObject.layer + ", y = " + gameObject.transform.position.y);
                 }
             }
@@ -257,10 +260,11 @@ public class CPlayer : MonoBehaviour
             {
                 if (gameObject.transform.position.y >= -4.5f)
                 {
+                    var sr = this.GetComponent<SpriteRenderer>();
                     gameObject.transform.position += new Vector3(0, -speed, 0);
-                    gameObject.layer = (int)((4.5f - gameObject.transform.position.y)) + 8;
+                    sr.sortingOrder = (int)((4.5f - gameObject.transform.position.y)) + 7;
                     if (4.5f - gameObject.transform.position.y != 0.0f)
-                        gameObject.layer++;
+                        sr.sortingOrder++;
                     Debug.Log("@@@@@@@@layer = " + gameObject.layer + ", y = " + gameObject.transform.position.y);
                 }
             }

@@ -27,14 +27,14 @@ public class CBackground : MonoBehaviour
     void Start ()
     {
         /* map array */
-
+        var sr = box.GetComponent<SpriteRenderer>();
         for (int i=0; i< map_height; i++)
         {
             for (int j=0; j<map_width; j++)
             {
                 if (map[i, j] == 1)
                 {
-                    box.layer = i + 8;
+                    sr.sortingOrder = i + 8;
                     Instantiate(box, new Vector3(start_x + 1.0f * j, 4.5f - 1.0f * i, 0), gameObject.transform.rotation);
                 }
             }
