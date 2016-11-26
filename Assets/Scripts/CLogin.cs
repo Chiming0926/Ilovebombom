@@ -16,6 +16,8 @@ public class CLogin : MonoBehaviour
                             0x89, 0xa2, 0xb6, 0xc5, 0x6f, 0xd6, 0xac, 0xfe, 0x2f, 0x92, 0x4d, 0xbc, 0x3f,
                             0xbd, 0x4b, 0x4d, 0x90, 0xf8, 0x50, 0xf2, 0x2, 0x16, 0x75, 0xd4 };
     ArcaletGame ag = null;
+
+    public GUISkin myskin = null;
     // Use this for initialization
     void Start ()
     {
@@ -52,19 +54,29 @@ public class CLogin : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Box(new Rect(100, 100, 300, 150), "");
-        GUI.Label(new Rect(150, 120, 100, 30), "Account");
-        GUI.Label(new Rect(150, 170, 100, 30), "Password");
+        int box_width = 500; 
+        int box_height = 300;
+        GUI.skin = myskin;
+        /* text background is width = 612 and height is 312 */
+        int start_y = (int)(Screen.height - box_height - 5);
+        int start_x = (int)((Screen.width - box_width) / 2);
+        GUI.Box(new Rect(start_x, start_y, box_width, box_height), "");
+        GUI.Label(new Rect(start_x + 70, start_y + 50, 100, 30), "Account");
+        GUI.Label(new Rect(start_x + 70, start_y + 100, 100, 30), "Password");
 
-        str_acc = GUI.TextField(new Rect(250, 120, 100, 30), str_acc, 10);
-        str_pw = GUI.PasswordField(new Rect(250, 170, 100, 30), str_pw, "*"[0], 20);
+        str_acc = GUI.TextField(new Rect(start_x + 150, start_y + 45, 250, 30), str_acc, 10);
+        str_pw = GUI.PasswordField(new Rect(start_x + 150, start_y + 105, 250, 30), str_pw, "*"[0], 20);
 
-        if (GUI.Button(new Rect(250, 220, 100, 30), "Login"))
+        if (GUI.Button(new Rect(start_x + 100, start_y + 165, 100, 30), "Login"))
         {
             ArcaletLaunch(str_acc, str_pw);
         }
 
-        if (GUI.Button(new Rect(120, 220, 100, 30), "Register"))
+        if (GUI.Button(new Rect(start_x + 260, start_y + 165, 100, 30), "Register"))
+        {
+            ArcaletLaunch(str_acc, str_pw);
+        }
+        if (GUI.Button(new Rect(start_x + 100, start_y + 215, 260, 30), "Facebook Login"))
         {
             ArcaletLaunch(str_acc, str_pw);
         }
