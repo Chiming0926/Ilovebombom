@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using Facebook.MiniJSON;
+using Facebook.Unity;
+
 
 public class CLogin : MonoBehaviour
 {
@@ -22,10 +26,16 @@ public class CLogin : MonoBehaviour
     void Start ()
     {
         ArcaletSystem.UnityEnvironment();
+
+        FB.Init(init_complete);
+        Debug.Log("token = " + AccessToken.CurrentAccessToken.TokenString);
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void init_complete()
+    {
+    }
+    // Update is called once per frame
+    void Update ()
     {
 	
 	}
@@ -78,7 +88,24 @@ public class CLogin : MonoBehaviour
         }
         if (GUI.Button(new Rect(start_x + 100, start_y + 215, 260, 30), "Facebook Login"))
         {
-            ArcaletLaunch(str_acc, str_pw);
+            //ArcaletLaunch(str_acc, str_pw);
+            FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, Login);
+        }
+    }
+
+    string msg;
+
+    void Login(IResult result)
+    {
+        msg = result.ToString();
+        Debug.Log("msg = " + msg);
+        if (FB.IsLoggedIn)
+        {
+            Debug.Log("FB login is successful, token = " +  AccessToken.CurrentAccessToken.TokenString);
+        }
+        else
+        {
+            Debug.Log("FB login is not successful");
         }
     }
 }

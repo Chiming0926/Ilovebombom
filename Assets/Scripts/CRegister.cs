@@ -5,8 +5,8 @@ public class CRegister : MonoBehaviour
 {
     public GUISkin skin = null;
     // Use this for initialization
-    void Start () {
-	
+    void Start ()
+    {
 	}
 	
 	// Update is called once per frame
@@ -27,7 +27,7 @@ public class CRegister : MonoBehaviour
 
         int box_width = 500;
         int box_height = 360;
-        /* text background is width = 612 and height is 312 */
+
         int start_y = (int)(Screen.height - box_height - 5);
         int start_x = (int)((Screen.width - box_width) / 2);
         GUI.Box(new Rect(start_x, start_y, box_width, box_height), "");
@@ -46,7 +46,7 @@ public class CRegister : MonoBehaviour
 
         if (GUI.Button(new Rect(start_x + 20, start_y + 350 - 45, 460, 30), "Register"))
         {
-        //    ArcaletLaunch(str_acc, str_pw);
+            
         }
     }
 
