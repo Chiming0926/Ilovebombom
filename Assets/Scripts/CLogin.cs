@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Facebook.MiniJSON;
 using Facebook.Unity;
-
+using UnityEngine.SceneManagement;
 
 public class CLogin : MonoBehaviour
 {
@@ -74,19 +74,19 @@ public class CLogin : MonoBehaviour
         GUI.Label(new Rect(start_x + 70, start_y + 50, 100, 30), "Account");
         GUI.Label(new Rect(start_x + 70, start_y + 100, 100, 30), "Password");
 
-        str_acc = GUI.TextField(new Rect(start_x + 150, start_y + 45, 250, 30), str_acc, 10);
-        str_pw = GUI.PasswordField(new Rect(start_x + 150, start_y + 105, 250, 30), str_pw, "*"[0], 20);
+        str_acc = GUI.TextField(new Rect(start_x + 150, start_y + 45, 320, 30), str_acc, 10);
+        str_pw = GUI.PasswordField(new Rect(start_x + 150, start_y + 105, 320, 30), str_pw, "*"[0], 20);
 
-        if (GUI.Button(new Rect(start_x + 100, start_y + 165, 100, 30), "Login"))
+        if (GUI.Button(new Rect(start_x + 70, start_y + 165, 180, 30), "Login"))
         {
             ArcaletLaunch(str_acc, str_pw);
         }
 
-        if (GUI.Button(new Rect(start_x + 260, start_y + 165, 100, 30), "Register"))
+        if (GUI.Button(new Rect(start_x + 290, start_y + 165, 180, 30), "Register"))
         {
-            ArcaletLaunch(str_acc, str_pw);
+            SceneManager.LoadSceneAsync("Register");
         }
-        if (GUI.Button(new Rect(start_x + 100, start_y + 215, 260, 30), "Facebook Login"))
+        if (GUI.Button(new Rect(start_x + 70, start_y + 215, 400, 30), "Facebook Login"))
         {
             //ArcaletLaunch(str_acc, str_pw);
             FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, Login);
