@@ -60,7 +60,7 @@ public class CRegister : MonoBehaviour
         GUI.Label(new Rect(start_x + 40, start_y + 200, 200, 30), "E-Mail");
         GUI.Label(new Rect(start_x + 40, start_y + 250, 200, 30), "Comfirm E-Mail");
 
-        str_acc = GUI.TextField(new Rect(start_x + 200, start_y + 45, 260, 30), str_acc, 10);
+        str_acc = GUI.TextField(new Rect(start_x + 200, start_y + 45, 260, 30), str_acc, 12);
         str_pw = GUI.PasswordField(new Rect(start_x + 200, start_y + 95, 260, 30), str_pw, "*"[0], 18);
         str_pw2 = GUI.PasswordField(new Rect(start_x + 200, start_y + 145, 260, 30), str_pw2, "*"[0], 18);
         str_mail = GUI.TextField(new Rect(start_x + 200, start_y + 195, 260, 30), str_mail, 50);
@@ -71,24 +71,56 @@ public class CRegister : MonoBehaviour
             if (str_pw != str_pw2)
             {
                 Debug.LogWarning("Please Confirm Your Password Information");
+                system_status = 1;
                 return;
             }
 
             if (str_mail != str_mail2)
             {
                 Debug.LogWarning("Please Confirm Your E-mail Information");
+                system_status = 1;
                 return;
             }
 
-            //Regist(str_acc, str_pw, str_mail);
+            Regist(str_acc, str_pw, str_mail);
         }
+    }
+
+    void CB_Regist(int code, object token)
+    {
+
+        if (code == 0)
+        {
+            /* regist sucessful */
+            string[] reg = token as string[]; 
+            string acc = reg[0];
+            string pw = reg[1];
+            string mail = reg[2];
+            Debug.Log("Regist Successed - Account:" + acc + " / Password:" +
+             pw + " E-Mail" + mail);
+
+        //    if (autoLogin) ArcaletLaunch(acc, pw);
+        }
+        else
+        {
+            Debug.LogWarning("Regist Failed - Error:" + code);
+        }
+    }
+
+    void Regist(string username, string password, string mail)
+    {
+        string[] registToken = new string[] { username, password, mail };
+        ArcaletSystem.ApplyNewUser(gguid, certificate, username, password,
+         mail, CB_Regist, registToken);
     }
 
     void show_error_message(int start_x, int start_y, int box_width, int box_height)
     {
-        GUI.Box(new Rect(start_x, start_y, box_width, box_height), "Account or Password is not correct");
-        if (GUI.Button(new Rect(start_x + 20, start_y + 350 - 45, 460, 30), "OK"))
+        GUI.Box(new Rect(start_x, start_y + 180, box_width, 200), "");
+        GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "Please comfirm your password or E-mail information");
+        if (GUI.Button(new Rect(start_x + 20, start_y + 330, 460, 30), "OK"))
         {
+            system_status = 0;
         }
     }
 
