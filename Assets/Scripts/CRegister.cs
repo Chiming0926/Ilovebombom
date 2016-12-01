@@ -35,6 +35,7 @@ public class CRegister : MonoBehaviour
     string str_mail = "";
     string str_mail2 = "";
     int system_status = 0;
+    int error_code = 0;
     void OnGUI()
     {
         GUI.skin = skin;
@@ -105,6 +106,7 @@ public class CRegister : MonoBehaviour
         {
             Debug.LogWarning("Regist Failed - Error:" + code);
         }
+        error_code = code;
     }
 
     void Regist(string username, string password, string mail)
@@ -117,7 +119,59 @@ public class CRegister : MonoBehaviour
     void show_error_message(int start_x, int start_y, int box_width, int box_height)
     {
         GUI.Box(new Rect(start_x, start_y + 180, box_width, 200), "");
-        GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "Please comfirm your password or E-mail information");
+        
+        switch (error_code)
+        {
+            case 10035:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "輸入空白帳號");
+                break;
+            case 10036:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "帳號太短，至少需3個字元");
+                break;
+            case 10037:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "帳號太長，最多需10個字元");
+                break;
+            case 10038:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "帳號只能是0-9, a-z, \" - \", \".\" 等字元且不能包含不雅字元");
+                break;
+            case 10039:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "帳號必須以0-9,a-z等字元開始及結束");
+                break;
+            case 10040:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "帳號不允許使用 \" -.\" 和 \" -.\"");
+                break;
+            case 10041:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "帳號不允許連續使用\" - \"或\".\"");
+                break;
+            case 10042:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "輸入空白遊戲密碼");
+                break;
+            case 10043:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "遊戲密碼太短，至少需6個字元");
+                break;
+            case 10044:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "遊戲密碼太長，最多需18個字元");
+                break;
+            case 10045:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "遊戲密碼不可使用雙引號或空白字元n");
+                break;
+            case 10046:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "輸入空白電子郵件信箱");
+                break;
+            case 10047:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "電子郵件信箱格式錯誤");
+                break;
+            case 10048:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "電子郵件信箱已超過註冊上限數");
+                break;
+            case 10049:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "此帳號已經存在");
+                break;
+            default:
+                GUI.Label(new Rect(start_x + 40, start_y + 230, 400, 30), "Please comfirm your password or E-mail information");
+                break;
+        }
+
         if (GUI.Button(new Rect(start_x + 20, start_y + 330, 460, 30), "OK"))
         {
             system_status = 0;
