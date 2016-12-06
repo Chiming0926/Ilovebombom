@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using Facebook.MiniJSON;
 using Facebook.Unity;
 using UnityEngine.SceneManagement;
+using System.Security.Cryptography;
+using System.Text;
+using System;
 
 public class CLogin : MonoBehaviour
 {
@@ -40,6 +43,28 @@ public class CLogin : MonoBehaviour
 	
 	}
 
+    int fb_login = 0;
+
+    void CB_Regist(int code, object token)
+    {
+        if (code == 0)
+        {
+            /* regist sucessful */
+            string[] reg = token as string[];
+            string acc = reg[0];
+            string pw = reg[1];
+            string mail = reg[2];
+            Debug.Log("Regist Successed - Account:" + acc + " / Password:" +
+             pw + " E-Mail" + mail);
+
+            //    if (autoLogin) ArcaletLaunch(acc, pw);
+        }
+        else
+        {
+            Debug.LogWarning("Regist Failed - Error:" + code);
+        }
+    }
+
     void CB_ArcaletLaunch(int code, ArcaletGame game)
     {
         if (code == 0)
@@ -49,6 +74,12 @@ public class CLogin : MonoBehaviour
         else
         {
             Debug.LogWarning("Login Failed - Code:" + code);
+            if (fb_login == 1)
+            {
+                string[] registToken = new string[] { user_account, user_password, user_mail };
+                ArcaletSystem.ApplyNewUser(gguid, certificate, user_account, user_password,
+                 user_mail, CB_Regist, registToken);
+            }
         }
     }
 
@@ -79,6 +110,7 @@ public class CLogin : MonoBehaviour
 
         if (GUI.Button(new Rect(start_x + 70, start_y + 165, 180, 30), "Login"))
         {
+            fb_login = 0;
             ArcaletLaunch(str_acc, str_pw);
         }
 
@@ -88,24 +120,60 @@ public class CLogin : MonoBehaviour
         }
         if (GUI.Button(new Rect(start_x + 70, start_y + 215, 400, 30), "Facebook Login"))
         {
-            //ArcaletLaunch(str_acc, str_pw);
-            FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, Login);
+            fb_login = 1;
+            FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, fb_login_callback);
         }
     }
 
-    string msg;
-
-    void Login(IResult result)
+    void fb_login_callback(IResult result)
     {
-        msg = result.ToString();
-        Debug.Log("msg = " + msg);
         if (FB.IsLoggedIn)
         {
+            Debug.Log("login result = " + result.RawResult);
             Debug.Log("FB login is successful, token = " +  AccessToken.CurrentAccessToken.TokenString);
+            FB.API("/me?fields=id,name,email", HttpMethod.GET, user_callback);
         }
         else
         {
             Debug.Log("FB login is not successful");
         }
+    }
+
+    string user_account;
+    string user_password;
+    string user_mail;
+
+    void user_callback(IResult result)
+    {
+        string md5 = getMd5Method(result.ResultDictionary["email"].ToString());
+        if (md5 != null)
+        {
+            user_mail = result.ResultDictionary["email"].ToString();
+            user_password = md5.Substring(16, 16);
+            user_account = md5.Substring(16, 10);
+            ArcaletLaunch(user_account, user_password);
+        }
+    }
+
+    private string getMd5Method(string input)
+    {
+        try
+        {
+            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+
+            byte[] myData = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < myData.Length; i++)
+            {
+                sBuilder.Append(myData[i].ToString("x"));
+            }
+
+            return string.Format("ComputeHash(16)：{0}", sBuilder.ToString());
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.Log("Can't get user's email");
+        }
+        return null;
     }
 }
