@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class CLobby_OnClick : MonoBehaviour {
-
+    public static int show_role_dialog = 0;
 	// Use this for initialization
-	void Start () {
-	
-	}
+	void Start ()
+    {
+    }
 
     // Update is called once per frame
     void Update()
@@ -17,6 +17,7 @@ public class CLobby_OnClick : MonoBehaviour {
     {
         if (gameObject.tag == "role")
         {
+            show_role_dialog = 1;
             Debug.Log("role down");
         }
         else if (gameObject.tag == "props")

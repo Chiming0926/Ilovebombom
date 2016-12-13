@@ -440,10 +440,11 @@ public class CPlayer : MonoBehaviour
 
     public class PlayerData
     {
-        public static string user_account;
-        public static string user_password;
-        public static string user_mail;
-        public static string user_name;
-        public static bool fb_login;
+        public static string    user_account;
+        public static string    user_password;
+        public static string    user_mail;
+        public static string    user_name;
+        public static bool      fb_login;
+        public static int       character_num;
     }
 }
