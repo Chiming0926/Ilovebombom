@@ -70,6 +70,9 @@
     <Reference Include="arcalet">
       <HintPath>Assets\Scenes\arcalet.dll</HintPath>
     </Reference>
+    <Reference Include="arcalet">
+      <HintPath>Assets\Scripts\Arcalet\arcalet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\ConsoleBase.cs" />
@@ -85,6 +88,10 @@
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\GraphRequest.cs" />
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\MainMenu.cs" />
     <Compile Include="Assets\FacebookSDK\Examples\Scripts\SubMenus\Pay.cs" />
+    <Compile Include="Assets\Scripts\Arcalet\AGCC.cs" />
+    <Compile Include="Assets\Scripts\Arcalet\AGCC_Login.cs" />
+    <Compile Include="Assets\Scripts\Arcalet\AGCC_Menu.cs" />
+    <Compile Include="Assets\Scripts\Arcalet\AGCC_Play.cs" />
     <Compile Include="Assets\Scripts\CBackground.cs" />
     <Compile Include="Assets\Scripts\CCreateWBall.cs" />
     <Compile Include="Assets\Scripts\CLobby.cs" />
@@ -93,9 +100,13 @@
     <Compile Include="Assets\Scripts\CPlayer.cs" />
     <Compile Include="Assets\Scripts\CRegister.cs" />
     <Compile Include="Assets\Scripts\CRoleDialog.cs" />
+    <Compile Include="Assets\Scripts\CStartGameDialog.cs" />
+    <Compile Include="Assets\Scripts\CStartNewGameDialog.cs" />
+    <Compile Include="Assets\Scripts\CStattGameDilalogOnClick.cs" />
     <Compile Include="Assets\Scripts\CWBall.cs" />
     <Compile Include="Assets\Scripts\CWooden.cs" />
     <Compile Include="Assets\Scripts\FixedJoystickHandler.cs" />
+    <Compile Include="Assets\Scripts\Logo\Logo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\FacebookSDK\link.xml" />

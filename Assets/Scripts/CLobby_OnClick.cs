@@ -3,8 +3,9 @@ using System.Collections;
 
 public class CLobby_OnClick : MonoBehaviour {
     public static int show_role_dialog = 0;
-	// Use this for initialization
-	void Start ()
+    public static int show_start_game_dialog = 0;
+    // Use this for initialization
+    void Start ()
     {
     }
 
@@ -15,6 +16,8 @@ public class CLobby_OnClick : MonoBehaviour {
 
     void OnMouseDown()
     {
+        if (show_role_dialog == 1 || show_start_game_dialog == 1)
+            return;
         if (gameObject.tag == "role")
         {
             show_role_dialog = 1;
@@ -35,6 +38,11 @@ public class CLobby_OnClick : MonoBehaviour {
         else if (gameObject.tag == "setup")
         {
             Debug.Log("setup down");
+        }
+        else if (gameObject.tag == "start_game")
+        {
+            Debug.Log("start game");
+            show_start_game_dialog = 1;
         }
     }
 }

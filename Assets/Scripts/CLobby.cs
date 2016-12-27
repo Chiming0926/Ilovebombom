@@ -15,6 +15,11 @@ public class CLobby : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("@@@@@@@@@@@@ on Mouse down");
+        if (gameObject.GetComponent<Renderer>().enabled == false)
+            return;
+        if (gameObject.tag == "start_game_dialog_close")
+        {
+            CLobby_OnClick.show_start_game_dialog = 0;
+        }
     }
 }

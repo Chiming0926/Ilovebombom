@@ -22,16 +22,15 @@ public class CLogin : MonoBehaviour
                             0xfa, 0x48, 0xeb, 0x5b, 0xaf, 0xd1, 0x64, 0x20, 0x3d, 0x49, 0xa5, 0xbc, 0x40,
                             0x89, 0xa2, 0xb6, 0xc5, 0x6f, 0xd6, 0xac, 0xfe, 0x2f, 0x92, 0x4d, 0xbc, 0x3f,
                             0xbd, 0x4b, 0x4d, 0x90, 0xf8, 0x50, 0xf2, 0x2, 0x16, 0x75, 0xd4 };
-    ArcaletGame ag = null;
+    AGCC m_agcc = null;
 
     public GUISkin myskin = null;
     // Use this for initialization
     void Start ()
     {
-        ArcaletSystem.UnityEnvironment();
-
         FB.Init(init_complete);
-        Debug.Log("token = " + AccessToken.CurrentAccessToken.TokenString);
+        m_agcc = FindObjectOfType(typeof(AGCC)) as AGCC;
+		if(m_agcc == null) return;
     }
 
     void init_complete()
@@ -45,51 +44,6 @@ public class CLogin : MonoBehaviour
 
     int fb_login = 0;
 
-    void CB_Regist(int code, object token)
-    {
-        if (code == 0)
-        {
-            /* regist sucessful */
-            string[] reg = token as string[];
-            string acc = reg[0];
-            string pw = reg[1];
-            string mail = reg[2];
-            Debug.Log("Regist Successed - Account:" + acc + " / Password:" +
-             pw + " E-Mail" + mail);
-
-            //    if (autoLogin) ArcaletLaunch(acc, pw);
-        }
-        else
-        {
-            Debug.LogWarning("Regist Failed - Error:" + code);
-        }
-    }
-
-    void CB_ArcaletLaunch(int code, ArcaletGame game)
-    {
-        if (code == 0)
-        {
-            Debug.Log("Login Successed");
-        }
-        else
-        {
-            Debug.LogWarning("Login Failed - Code:" + code);
-            if (fb_login == 1)
-            {
-                string[] registToken = new string[] { user_account, user_password, user_mail };
-                ArcaletSystem.ApplyNewUser(gguid, certificate, user_account, user_password,
-                 user_mail, CB_Regist, registToken);
-            }
-        }
-    }
-
-    void ArcaletLaunch(string username, string password)
-    {
-        ag = new ArcaletGame(username, password, gguid, sguid, certificate);
-        ag.onCompletion += CB_ArcaletLaunch;
-        ag.Launch();
-    }
-
     string str_acc = "";
     string str_pw = "";
 
@@ -102,7 +56,7 @@ public class CLogin : MonoBehaviour
         int start_y = (int)(Screen.height - box_height - 5);
         int start_x = (int)((Screen.width - box_width) / 2);
         GUI.Box(new Rect(start_x, start_y, box_width, box_height), "");
-        GUI.Label(new Rect(start_x + 70, start_y + 50, 100, 30), "Account");
+   /*     GUI.Label(new Rect(start_x + 70, start_y + 50, 100, 30), "Account");
         GUI.Label(new Rect(start_x + 70, start_y + 100, 100, 30), "Password");
 
         str_acc = GUI.TextField(new Rect(start_x + 150, start_y + 45, 320, 30), str_acc, 10);
@@ -111,13 +65,12 @@ public class CLogin : MonoBehaviour
         if (GUI.Button(new Rect(start_x + 70, start_y + 165, 180, 30), "Login"))
         {
             fb_login = 0;
-            ArcaletLaunch(str_acc, str_pw);
         }
 
         if (GUI.Button(new Rect(start_x + 290, start_y + 165, 180, 30), "Register"))
         {
             SceneManager.LoadSceneAsync("Register");
-        }
+        }*/
         if (GUI.Button(new Rect(start_x + 70, start_y + 215, 400, 30), "Facebook Login"))
         {
             fb_login = 1;
@@ -146,12 +99,17 @@ public class CLogin : MonoBehaviour
     void user_callback(IResult result)
     {
         string md5 = getMd5Method(result.ResultDictionary["email"].ToString());
+    //    string md5 = getMd5Method("Chiming0928@gmail.com");
         if (md5 != null)
         {
             user_mail = result.ResultDictionary["email"].ToString();
+         //   user_mail = "Chiming0928@gmail.com";
             user_password = md5.Substring(16, 16);
             user_account = md5.Substring(16, 10);
-            ArcaletLaunch(user_account, user_password);
+            Debug.Log("user_account = " + user_account + ", user_password = " + user_password);
+            m_agcc.ArcaletLaunch(user_account, user_password, user_mail);
+
+
         }
     }
 
