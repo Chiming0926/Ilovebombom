@@ -45,7 +45,7 @@ public partial class AGCC : MonoBehaviour {
 	{
 		try 
 		{
-			
+            Debug.Log("MainMessageIn, msg = " + msg);
         }
         catch (Exception e) { Debug.LogWarning("MainMessageIn Exception:\r\n" + e.ToString()); }
 	}

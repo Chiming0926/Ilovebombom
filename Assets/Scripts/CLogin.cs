@@ -99,11 +99,9 @@ public class CLogin : MonoBehaviour
     void user_callback(IResult result)
     {
         string md5 = getMd5Method(result.ResultDictionary["email"].ToString());
-    //    string md5 = getMd5Method("Chiming0928@gmail.com");
         if (md5 != null)
         {
             user_mail = result.ResultDictionary["email"].ToString();
-         //   user_mail = "Chiming0928@gmail.com";
             user_password = md5.Substring(16, 16);
             user_account = md5.Substring(16, 10);
             Debug.Log("user_account = " + user_account + ", user_password = " + user_password);

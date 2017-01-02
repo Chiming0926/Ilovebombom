@@ -61,6 +61,7 @@ public partial class AGCC {
 		if(code==0) {
 			Debug.Log("ArcaletLaunch Successed");
             SceneManager.LoadScene("lobby");
+            LoginCheck();
         }
 		else {
 			Debug.Log("ArcaletLaunch Failed code = " + code);
