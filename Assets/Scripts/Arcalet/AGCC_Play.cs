@@ -8,17 +8,16 @@ public partial class AGCC {
 	internal ArcaletScene sn = null;
 	
 	public MatchInfo matchInfos = new MatchInfo();
-    /*
+    
     GameManager game = null;
 
 	internal void Match( GameManager g)
 	{
 		game = g;
 		matchInfos.GenerateMatchCode();
-		string msg = ag.gameUserid + "/" + ag.poid + "/" + OXGame.playerInfo.nickname + "/" + matchInfos.matchCode;
+	//	string msg = ag.gameUserid + "/" + ag.poid + "/" + OXGame.playerInfo.nickname + "/" + matchInfos.matchCode;
 		ag.PrivacySend("match:" + msg , serverSettings.dpPoid);
 	}
-	*/
 	
 	void DP_Room(string msg) 
 	{			

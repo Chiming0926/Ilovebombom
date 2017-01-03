@@ -2,11 +2,12 @@
 using System.Collections;
 
 public class CStattGameDilalogOnClick : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
+    AGCC agcc = null;
+    // Use this for initialization
+    void Start () {
+        agcc = FindObjectOfType(typeof(AGCC)) as AGCC;
+        if (agcc == null) return;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,6 +28,7 @@ public class CStattGameDilalogOnClick : MonoBehaviour {
         else if (gameObject.tag == "start_new_game_player_fight")
         {
             CStartGameDialog.show_new_game_dialog = 1;
+            agcc.Match(null);
         }
         else if (gameObject.tag == "start_new_game_challeage")
         {

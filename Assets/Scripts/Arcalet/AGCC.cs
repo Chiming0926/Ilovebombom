@@ -100,4 +100,26 @@ public class ServerSettings
 	public int dpPoid = 0;
 }
 
+[System.Serializable]
+public class PlayerInfo
+{
+    public string nickname = "NickName";
+    public string account = "Account";
+    public int win = 0;
+    public int lose = 0;
+    public int draw = 0;
+    public string winRate = "0%";
+
+    internal void SetWinRate()
+    {
+        if (win == 0) winRate = "0%";
+        else
+        {
+            float rate_f = (float)win / (win + lose);
+            int rate_100 = Mathf.CeilToInt(rate_f * 100);
+            winRate = rate_100 + "%";
+        }
+    }
+}
+
 
