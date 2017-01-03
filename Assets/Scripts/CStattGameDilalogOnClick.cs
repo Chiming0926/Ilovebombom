@@ -28,7 +28,7 @@ public class CStattGameDilalogOnClick : MonoBehaviour {
         else if (gameObject.tag == "start_new_game_player_fight")
         {
             CStartGameDialog.show_new_game_dialog = 1;
-            agcc.Match(null);
+         //   agcc.Match(null);
         }
         else if (gameObject.tag == "start_new_game_challeage")
         {

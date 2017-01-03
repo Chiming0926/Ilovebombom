@@ -8,18 +8,18 @@ public partial class AGCC {
 	internal ArcaletScene sn = null;
 	
 	public MatchInfo matchInfos = new MatchInfo();
-    
-    GameManager game = null;
 
-	internal void Match( GameManager g)
-	{
-		game = g;
-		matchInfos.GenerateMatchCode();
-	//	string msg = ag.gameUserid + "/" + ag.poid + "/" + OXGame.playerInfo.nickname + "/" + matchInfos.matchCode;
-		ag.PrivacySend("match:" + msg , serverSettings.dpPoid);
-	}
-	
-	void DP_Room(string msg) 
+    //   GameManager game = null;
+
+    internal void Match()
+    {
+    //    game = g;
+        matchInfos.GenerateMatchCode();
+        string msg = ag.gameUserid + "/" + ag.poid + "/" + "test520" + "/" + matchInfos.matchCode;
+        ag.PrivacySend("match:" + msg, serverSettings.dpPoid);
+    }
+
+    void DP_Room(string msg) 
 	{			
 		string[] m = msg.Split('/');
 		int sid = int.Parse(m[0]);
@@ -54,7 +54,7 @@ public partial class AGCC {
 			Debug.Log("CB_LeaveScene Failed: " + code);
 			matchInfos.matchCode = "";
 			ag.PrivacySend("cancel:" + ag.poid, serverSettings.dpPoid);
-			Application.LoadLevel("MainMenu");
+		//	Application.LoadLevel("MainMenu");
 		}	
 	}	
 	
