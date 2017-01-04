@@ -13,7 +13,6 @@ public partial class AGCC {
 
     internal void Match()
     {
-    //    game = g;
         matchInfos.GenerateMatchCode();
         string msg = ag.gameUserid + "/" + ag.poid + "/" + "test520" + "/" + matchInfos.matchCode;
         ag.PrivacySend("match:" + msg, serverSettings.dpPoid);
