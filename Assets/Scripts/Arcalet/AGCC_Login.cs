@@ -70,6 +70,13 @@ public partial class AGCC {
         }
 	}
 
+	void Regist(string username, string password, string mail)
+    {
+        string[] registToken = new string[] { username, password, mail };
+        ArcaletSystem.ApplyNewUser(gguid, certificate, username, password,
+         mail, CB_Regist, registToken);
+    }	    
+
 	void CB_Regist(int code, object token)
     {
 
@@ -82,24 +89,14 @@ public partial class AGCC {
             string mail = reg[2];
             Debug.Log("Regist Successed - Account:" + acc + " / Password:" +
              pw + " E-Mail" + mail);
-
-            ArcaletLaunch(acc, pw, mail);
+			ArcaletLaunch(acc, pw, mail);
         }
         else
         {
             Debug.LogWarning("Regist Failed - Error:" + code);
         }
-        //error_code = code;
     }
 
-    void Regist(string username, string password, string mail)
-    {
-        string[] registToken = new string[] { username, password, mail };
-        ArcaletSystem.ApplyNewUser(gguid, certificate, username, password,
-         mail, CB_Regist, registToken);
-    }
-
-	
 	//get item class - server settings
 	void GetServerSettings()
 	{

@@ -185,6 +185,7 @@ public class CPlayer : MonoBehaviour
 
     public void UpdateDirection(Vector3 direction)
     {
+		Debug.Log("@@@@ UpdateDirection");
         if (Math.Abs(direction.x) == Math.Abs(direction.y))
         {
             /* don't change */
@@ -211,7 +212,6 @@ public class CPlayer : MonoBehaviour
 
     void player_move(PLAYER_DIRECTION dir)
     {
-        
         var r = this.GetComponent<Rigidbody2D>();
         if (dir == PLAYER_DIRECTION.RIGHT)
         {
@@ -249,7 +249,6 @@ public class CPlayer : MonoBehaviour
                     {
                         sr.sortingOrder++;
                     }
-                    Debug.Log("@@@@@@@@layer = " + gameObject.layer + ", y = " + gameObject.transform.position.y);
                 }
             }
         }
@@ -265,7 +264,6 @@ public class CPlayer : MonoBehaviour
                     sr.sortingOrder = (int)((4.5f - gameObject.transform.position.y)) + 7;
                     if (4.5f - gameObject.transform.position.y != 0.0f)
                         sr.sortingOrder++;
-                    Debug.Log("@@@@@@@@layer = " + gameObject.layer + ", y = " + gameObject.transform.position.y);
                 }
             }
         }
