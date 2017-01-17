@@ -36,6 +36,7 @@ public partial class AGCC {
 			sn.onMessageIn += GameMessageIn;
 			sn.onCompletion += CB_EnterRoom;
 			sn.Launch();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("level_village");
 		}
 	}
 	

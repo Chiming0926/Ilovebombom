@@ -48,7 +48,8 @@ public partial class AGCC {
 		m_username  = username;
 		m_password  = password;
 		m_email	    = email;
-		ag = new ArcaletGame(username, password, gguid, sguid, certificate );
+	//	ag = new ArcaletGame(username, password, gguid, sguid, certificate );
+		ag = new ArcaletGame("bbhappy009", "12345678", gguid, sguid, certificate );
 		ag.onMessageIn += MainMessageIn;
 		ag.onPrivateMessageIn += PrivateMessageIn;
 		ag.onCompletion += CB_ArcaletLaunch;		
@@ -147,7 +148,7 @@ public partial class AGCC {
 	//		menu.LoginError("Server is closed.");
 	//		return;
 	//	}
-		StartCoroutine("DPLinkTimer");
+	//	StartCoroutine("DPLinkTimer");
 		ag.SendOnClose("quit:" + ag.gameUserid + "/" + ag.poid);
 		ag.Send("new:" + ag.gameUserid + "/" + ag.poid);
 	}
