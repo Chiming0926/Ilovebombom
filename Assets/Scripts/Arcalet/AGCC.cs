@@ -16,8 +16,8 @@ public partial class AGCC : MonoBehaviour {
 	string iguid_server = "";
 	string iguid_player = "";
 
-	string sguid_game = "";
-	string lguid = "";
+    string sguid_game = "c4345a29-310f-d241-b95c-77928bf819c6";
+    string lguid = "";
 
 	byte[] certificate = {0x43, 0x13, 0xbd, 0x25, 0x4e, 0x7b, 0xa3, 0x4b, 0x86, 0x13, 0xa8, 0xa5, 0x49,
                             0xcf, 0xd1, 0x5e, 0x58, 0x34, 0x2c, 0xda, 0xb, 0x9f, 0xc, 0x41, 0x8a, 0x3e,
@@ -31,7 +31,8 @@ public partial class AGCC : MonoBehaviour {
                             0xbd, 0x4b, 0x4d, 0x90, 0xf8, 0x50, 0xf2, 0x2, 0x16, 0x75, 0xd4};
 
     internal ArcaletGame ag = null;
-	public ServerSettings serverSettings = new ServerSettings();	
+	public ServerSettings serverSettings = new ServerSettings();
+	
 	#endregion
 	
 	// Use this for initialization
@@ -71,8 +72,21 @@ public partial class AGCC : MonoBehaviour {
 		try {
 			Debug.Log("@ GameMsg>> " + msg);
 			string[] cmds = msg.Split(':');
+			CGameManager game = FindObjectOfType(typeof(CGameManager)) as CGameManager;
+			if (game == null) 
+				return ;
+			
             switch (cmds[0])
             {
+				case "bb_move":
+					game.player_move(cmds[1]); 
+					break;
+				case "bb_stop": 
+					game.player_stop(cmds[1]); 
+					break;
+				default:
+					Debug.Log(cmds[1]);
+					break;
 			//	case "dp_start": game.GameStart(cmds[1]); break;
 			//	case "dp_player": game.SetRevalInfos(cmds[1]); break;
 			//	case "dp_slot": game.FillSlot(cmds[1]); break;
