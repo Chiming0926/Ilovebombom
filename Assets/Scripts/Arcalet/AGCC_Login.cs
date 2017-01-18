@@ -49,7 +49,7 @@ public partial class AGCC {
 		m_password  = password;
 		m_email	    = email;
 	//	ag = new ArcaletGame(username, password, gguid, sguid, certificate );
-		ag = new ArcaletGame("bbhappy011", "12345678", gguid, sguid, certificate );
+		ag = new ArcaletGame("bbhappy010", "12345678", gguid, sguid, certificate );
 		ag.onMessageIn += MainMessageIn;
 		ag.onPrivateMessageIn += PrivateMessageIn;
 		ag.onCompletion += CB_ArcaletLaunch;		

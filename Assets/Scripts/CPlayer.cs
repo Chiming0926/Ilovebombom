@@ -71,11 +71,12 @@ public class CPlayer : MonoBehaviour
         if (changePic)
         {
             SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
-            Sprite s = Sprite.Create(texture[pic_num], new Rect(0, 0, texture[pic_num].width, texture[pic_num].height), new Vector3(0.5f, 0.5f, 0));
-            spr.sprite = s;
-            pic++;
-            if (pic >= 3)
-                pic = 0;
+            Debug.Log("pic_num = " + pic_num);
+        //    Sprite s = Sprite.Create(texture[pic_num], new Rect(0, 0, texture[pic_num].width, texture[pic_num].height), new Vector3(0.5f, 0.5f, 0));
+         //   spr.sprite = s;
+         //   pic++;
+         //   if (pic >= 3)
+         //       pic = 0;
         }
         cnt++;
     }
@@ -178,36 +179,17 @@ public class CPlayer : MonoBehaviour
 
     public void EndMove()
     {
-        direct = PLAYER_DIRECTION.NULL;
-        var r = this.GetComponent<Rigidbody2D>();
-        r.velocity = new Vector2(0, 0);
+		Debug.Log("@@@@ CPlayer EndMove");
+		direct = PLAYER_DIRECTION.NULL;
+//        direct = PLAYER_DIRECTION.NULL;
+//        var r = this.GetComponent<Rigidbody2D>();
+//        r.velocity = new Vector2(0, 0);
     }
 
-    public void UpdateDirection(Vector3 direction)
+    public void UpdateDirection(int direction)
     {
-		Debug.Log("@@@@ UpdateDirection");
-        if (Math.Abs(direction.x) == Math.Abs(direction.y))
-        {
-            /* don't change */
-        }
-        else if (Math.Abs(direction.x) > Math.Abs(direction.y))
-        {
-            if (direction.x > 0)
-            {
-                direct = PLAYER_DIRECTION.RIGHT;
-            }
-            else
-            {
-                direct = PLAYER_DIRECTION.LEFT;
-            }
-        }
-        else
-        {
-            if (direction.y > 0)
-                direct = PLAYER_DIRECTION.UP;
-            else
-                direct = PLAYER_DIRECTION.DOWN;
-        }
+		Debug.Log("@@@@ CPlayer UpdateDirection " + direction);
+        direct = (PLAYER_DIRECTION)direction;
     }
 
     void player_move(PLAYER_DIRECTION dir)

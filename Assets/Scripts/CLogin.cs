@@ -74,7 +74,8 @@ public class CLogin : MonoBehaviour
         if (GUI.Button(new Rect(start_x + 70, start_y + 215, 400, 30), "Facebook Login"))
         {
             fb_login = 1;
-            FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, fb_login_callback);
+			m_agcc.ArcaletLaunch(user_account, user_password, user_mail);
+            //FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, fb_login_callback);
         }
     }
 
