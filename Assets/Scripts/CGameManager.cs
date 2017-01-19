@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class CGameManager : MonoBehaviour {
 
-	public class PlayerData
+	internal class PlayerData
     {
-		GameObject player_ins;
-		string 	   player_account;	
+        internal GameObject player_ins;
+        internal string player_account;
+        internal string nickname;
+        internal int player_poid;
+        internal bool me;
     }
 
+	List<PlayerData> player_list = new List<PlayerData>();
 
 	public GameObject player_prefab;
     GameObject player_ins;
@@ -30,7 +35,7 @@ public class CGameManager : MonoBehaviour {
     {
 		m_agcc = FindObjectOfType(typeof(AGCC)) as AGCC;
 		if(m_agcc == null) return;
-		player_ins = Instantiate(player_prefab, new Vector3(7.5f, 4.5f, -1), gameObject.transform.rotation) as GameObject;
+		//player_ins = Instantiate(player_prefab, new Vector3(7.5f, 4.5f, -1), gameObject.transform.rotation) as GameObject;
 	}
 	
 	// Update is called once per frame
@@ -97,4 +102,26 @@ public class CGameManager : MonoBehaviour {
 		Debug.Log("player_stop");
 		player_ins.GetComponent<CPlayer>().EndMove();
 	}
+
+	internal void add_player(string msg)
+	{
+        if (player_list.Count >= 6)
+        {
+            Debug.Log("Gameroom is full");
+            return;
+        }
+
+        string[] m = msg.Split('/');
+        PlayerData playerData = new PlayerData();
+
+        playerData.player_poid = int.Parse(m[0]);
+
+        if (m[1] == m_agcc.ag.gameUserid)
+            playerData.me = true;
+        else
+            playerData.me = false;
+        playerData.player_account = m[1];
+		playerData.nickname = m[2];
+		playerData.player_ins = Instantiate(player_prefab, new Vector3(7.5f, 4.5f, -1), gameObject.transform.rotation) as GameObject;
+    }
 }

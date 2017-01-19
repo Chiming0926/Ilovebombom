@@ -84,6 +84,8 @@ public partial class AGCC : MonoBehaviour {
 				case "bb_stop": 
 					game.player_stop(cmds[1]); 
 					break;
+				case "bb_player":
+					break;
 				default:
 					Debug.Log(cmds[1]);
 					break;
