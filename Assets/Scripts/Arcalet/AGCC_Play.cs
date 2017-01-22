@@ -62,7 +62,7 @@ public partial class AGCC {
 	{
 		if(code == 0) {
 			Debug.Log("CB_EnterRoom Successed");
-			scene.Send("ready:" + ag.poid);
+			scene.Send("bb_ready:" + ag.gameUserid + "/"  + ag.poid);
 		}
 		else {
 			Debug.Log("CB_EnterRoom Failed: " + code);

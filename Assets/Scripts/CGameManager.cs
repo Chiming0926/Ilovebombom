@@ -93,14 +93,23 @@ public class CGameManager : MonoBehaviour {
 	internal void player_move(string msg)
 	{
 		Debug.Log("player_move");
-		string[] m = msg.Split('/');	
-		player_ins.GetComponent<CPlayer>().UpdateDirection(int.Parse(m[1]));
+		string[] m = msg.Split('/');
+		foreach (PlayerData data in player_list)
+        {
+			if (data.player_account == m[0])
+				data.player_ins.GetComponent<CPlayer>().UpdateDirection(int.Parse(m[1]));
+		}
 	}
 
 	internal void player_stop(string msg)
 	{
 		Debug.Log("player_stop");
-		player_ins.GetComponent<CPlayer>().EndMove();
+		string[] m = msg.Split('/');
+		foreach (PlayerData data in player_list)
+        {
+			if (data.player_account == m[0])
+				data.player_ins.GetComponent<CPlayer>().EndMove();
+		}
 	}
 
 	internal void add_player(string msg)
@@ -110,7 +119,8 @@ public class CGameManager : MonoBehaviour {
             Debug.Log("Gameroom is full");
             return;
         }
-
+		Vector3[] positionArray = new [] { new Vector3(7.5f, 4.5f, -1), new Vector3(-7.5f, 4.5f, -1), new Vector3(0.0f, 4.5f, -1),
+											new Vector3(7.5f, -4.5f, -1), new Vector3(-7.5f, -4.5f, -1), new Vector3(0.0f, -4.5f, -1)};
         string[] m = msg.Split('/');
         PlayerData playerData = new PlayerData();
 
@@ -122,6 +132,7 @@ public class CGameManager : MonoBehaviour {
             playerData.me = false;
         playerData.player_account = m[1];
 		playerData.nickname = m[2];
-		playerData.player_ins = Instantiate(player_prefab, new Vector3(7.5f, 4.5f, -1), gameObject.transform.rotation) as GameObject;
+		playerData.player_ins = Instantiate(player_prefab, positionArray[player_list.Count], gameObject.transform.rotation) as GameObject;
+		player_list.Add(playerData);
     }
 }

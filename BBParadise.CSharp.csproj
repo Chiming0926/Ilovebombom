@@ -62,9 +62,6 @@
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="arcalet">
-      <HintPath>Assets\Scenes\arcalet.dll</HintPath>
-    </Reference>
-    <Reference Include="arcalet">
       <HintPath>Assets\Scripts\Arcalet\arcalet.dll</HintPath>
     </Reference>
     <Reference Include="Facebook.Unity">
