@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
+
 public class CPlayer : MonoBehaviour
 {
     enum PLAYER_DIRECTION
@@ -14,7 +15,7 @@ public class CPlayer : MonoBehaviour
         NULL   = 4
     };
 
-
+    private const int KEYBOARD_TEST = 1;
     public GameObject water_ball;
     private float speed = 0.1f;
     public static   int wball_cnt = 0;
@@ -129,9 +130,9 @@ public class CPlayer : MonoBehaviour
         }
     }
 */
-    public static void create_wball()
+    public void create_wball()
     {
-        Vector3 pos = player.transform.position;
+        Vector3 pos = this.transform.position;
         for (int i = 0; i < CBackground.map_height; i++)
         {
             if (pos.y <= 4.5f - i * 1.0f
@@ -179,19 +180,40 @@ public class CPlayer : MonoBehaviour
 
     public void EndMove()
     {
-		Debug.Log("@@@@ CPlayer EndMove");
 		direct = PLAYER_DIRECTION.NULL;
 //        direct = PLAYER_DIRECTION.NULL;
 //        var r = this.GetComponent<Rigidbody2D>();
 //        r.velocity = new Vector2(0, 0);
     }
-
+/*
     public void UpdateDirection(int direction)
     {
 		Debug.Log("@@@@ CPlayer UpdateDirection " + direction);
         direct = (PLAYER_DIRECTION)direction;
     }
-
+*/
+	public void UpdateDirection(Vector3 direction)
+    {
+        if (Math.Abs(direction.x) == Math.Abs(direction.y))
+        {
+            /* don't change */
+			return;
+        }
+        else if (Math.Abs(direction.x) > Math.Abs(direction.y))
+        {
+            if (direction.x > 0)
+                direct = PLAYER_DIRECTION.RIGHT;
+            else
+                direct = PLAYER_DIRECTION.LEFT;
+        }
+        else
+        {
+            if (direction.y > 0)
+				direct = PLAYER_DIRECTION.UP;
+            else
+                direct = PLAYER_DIRECTION.DOWN;
+        }
+    }
     void player_move(PLAYER_DIRECTION dir)
     {
         var r = this.GetComponent<Rigidbody2D>();
@@ -253,20 +275,20 @@ public class CPlayer : MonoBehaviour
         {
             r.velocity = new Vector2(0.0f, 0.0f);
         }
-        
         direct = dir;
     }
 
     void Update ()
     {
         // var r = this.GetComponent<Rigidbody2D>();
-        set_player_pic(direct);
-        player_move(direct);
-        /*
+       // set_player_pic(direct);
+		//Debug.Log("@@@@@@ player move");
+        //player_move(direct);
+       
         if (Input.GetKey(KeyCode.RightArrow))
         {
             set_player_pic(direct);
-            player_move(direct);
+            player_move(PLAYER_DIRECTION.RIGHT);
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -290,12 +312,11 @@ public class CPlayer : MonoBehaviour
                 create_wball();
                 wball_cnt++;
             }
-        }*/
-
+        }
     }
     public void OnClick()
     {
-        if (wball_cnt < 3)
+        if (wball_cnt < 10)
         {
             Debug.Log("@@@@@@ws");
             create_wball();

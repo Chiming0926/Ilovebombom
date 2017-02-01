@@ -4,11 +4,14 @@ using System.Collections;
 
 public partial class AGCC : MonoBehaviour {
 
-	/*******************************************************************
+    /*******************************************************************
 	*	Copyright  2013 arcalet. All Rights Reserved
 	*	 
 	*******************************************************************/
-	
+    public static int BBDEBUG_INFO = 1;
+    public static int BBDEBUG_WARNING = 2;
+    public static int BBDEBUG_ERROR = 4;
+    private static int bbDebug = 7; /* debug level info, warning, error */
 	#region Variables	
 	string gguid = "7245577f-4961-7642-a64c-ba5bb008892c";
 	string sguid = "52a06444-ff13-654b-bfa1-29da9f7124dd";
@@ -42,6 +45,19 @@ public partial class AGCC : MonoBehaviour {
 		ArcaletSystem.UnityEnvironment();
 	}
 	
+    public static void BBDebug(int debugLevel, string msg)
+    {
+        int numOfDebugLevel = 3;
+        for (int i=0; i< numOfDebugLevel; i++)
+        {
+            if ((debugLevel & (1 << i)) == 1)
+            {
+                Debug.Log(msg);
+                break;
+            }
+        }
+    }
+
 	void MainMessageIn(string msg, int delay, ArcaletGame game)
 	{
 		try 
@@ -87,8 +103,16 @@ public partial class AGCC : MonoBehaviour {
 				case "bb_player":
 					game.add_player(cmds[1]);
 					break;
+				case "bb_wball":
+					game.bb_wball(cmds[1]);
+					break;
+                case "bb_death":
+                    game.handle_death_message(cmds[1]);
+                    break;
+				case "bb_over":
+					//game.
+					break;
 				default:
-					Debug.Log(cmds[1]);
 					break;
 			//	case "dp_start": game.GameStart(cmds[1]); break;
 			//	case "dp_player": game.SetRevalInfos(cmds[1]); break;

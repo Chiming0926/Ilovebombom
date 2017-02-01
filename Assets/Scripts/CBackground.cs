@@ -32,6 +32,7 @@ public class CBackground : MonoBehaviour
         {
             for (int j=0; j<map_width; j++)
             {
+				
                 if (map[i, j] == 1)
                 {
                     sr.sortingOrder = i + 8;

@@ -52,7 +52,10 @@ public class CWBall : MonoBehaviour
         foreach (Collider2D collider in colliders)
         {
             if (collider.tag == "Player")
-                continue;
+            {
+				/* Send death message */
+				continue;
+            }
             Destroy(collider.gameObject);   
         }
     }

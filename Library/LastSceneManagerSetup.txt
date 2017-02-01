@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/logo.unity
+- path: Assets/Scenes/level_village.unity
   isLoaded: 1
   isActive: 1

@@ -49,6 +49,7 @@ public class CLogin : MonoBehaviour
 
     void OnGUI()
     {
+#if LOGIN_UI       
         int box_width = 500; 
         int box_height = 300;
         GUI.skin = myskin;
@@ -56,7 +57,7 @@ public class CLogin : MonoBehaviour
         int start_y = (int)(Screen.height - box_height - 5);
         int start_x = (int)((Screen.width - box_width) / 2);
         GUI.Box(new Rect(start_x, start_y, box_width, box_height), "");
-   /*     GUI.Label(new Rect(start_x + 70, start_y + 50, 100, 30), "Account");
+        GUI.Label(new Rect(start_x + 70, start_y + 50, 100, 30), "Account");
         GUI.Label(new Rect(start_x + 70, start_y + 100, 100, 30), "Password");
 
         str_acc = GUI.TextField(new Rect(start_x + 150, start_y + 45, 320, 30), str_acc, 10);
@@ -80,6 +81,15 @@ public class CLogin : MonoBehaviour
 		
             FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, fb_login_callback);
         }
+#endif
+    }
+
+    internal void onFBLoingOnClick()
+    {
+        if (m_agcc == null) AGCC.BBDebug(AGCC.BBDEBUG_ERROR, "failed to initial agcc");
+        AGCC.BBDebug(AGCC.BBDEBUG_INFO, "facebook loggin");
+        fb_login = 1;
+        FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, fb_login_callback);
     }
 
     void fb_login_callback(IResult result)
@@ -135,5 +145,13 @@ public class CLogin : MonoBehaviour
             Debug.Log("Can't get user's email");
         }
         return null;
+    }
+
+    void OnMouseDown()
+    {
+        if (gameObject.tag == "fb_login")
+        {
+            AGCC.BBDebug(AGCC.BBDEBUG_INFO, "Push FB Login Button");
+        }
     }
 }

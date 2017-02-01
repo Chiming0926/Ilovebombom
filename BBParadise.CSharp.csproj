@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\Arcalet\AGCC_Play.cs" />
     <Compile Include="Assets\Scripts\CBackground.cs" />
     <Compile Include="Assets\Scripts\CCreateWBall.cs" />
+    <Compile Include="Assets\Scripts\CFBLogin.cs" />
     <Compile Include="Assets\Scripts\CGameManager.cs" />
     <Compile Include="Assets\Scripts\CLobby.cs" />
     <Compile Include="Assets\Scripts\CLobby_OnClick.cs" />

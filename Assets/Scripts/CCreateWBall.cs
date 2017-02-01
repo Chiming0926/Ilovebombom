@@ -14,6 +14,6 @@ public class CCreateWBall : MonoBehaviour {
     public void OnClick()
     {
         Debug.Log("@@@@@@@@@@@");
-        CPlayer.create_wball();
+   //     CPlayer.create_wball();
     }
 }
