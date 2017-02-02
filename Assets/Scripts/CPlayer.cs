@@ -15,9 +15,11 @@ public class CPlayer : MonoBehaviour
         NULL   = 4
     };
 
+	private const float PLAYER_SIZE = 0.5f;
+
     private const int KEYBOARD_TEST = 1;
     public GameObject water_ball;
-    private float speed = 0.1f;
+    private float speed = 0.08f;
     public static   int wball_cnt = 0;
     public static GameObject static_wball;
     public Texture2D []texture = new Texture2D[9];
@@ -72,7 +74,7 @@ public class CPlayer : MonoBehaviour
         if (changePic)
         {
             SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
-            Debug.Log("pic_num = " + pic_num);
+        //    Debug.Log("pic_num = " + pic_num);
         //    Sprite s = Sprite.Create(texture[pic_num], new Rect(0, 0, texture[pic_num].width, texture[pic_num].height), new Vector3(0.5f, 0.5f, 0));
          //   spr.sprite = s;
          //   pic++;
@@ -82,54 +84,44 @@ public class CPlayer : MonoBehaviour
         cnt++;
     }
     // 3.4 
-/*
     void reset_y(Vector3 pos)
     {
         for (int i=0; i< CBackground.map_height; i++)
         {
-            if (pos.y <= 3.6f - i*0.632f
-                && pos.y > 3.6f - (i+1) * 0.632f)
+            if (pos.y <= 4.5f - i*1.0f
+                && pos.y > 4.5f - (i+1) * 1.0f)
             {
                 Debug.Log("@@@@@@@ reset y ");
-                if (3.6f - i * 0.632f - pos.y > pos.y - 3.6f + (i + 1) * 0.632f)
+                if (4.5f - i * 1.0f - pos.y > pos.y - 4.5f + (i + 1) * 1.0f)
                 {
-                    pos = new Vector3(pos.x, 3.6f - (i + 1) * 0.632f, -1);
-                    cpos_y = i - 1;
+                    pos = new Vector3(pos.x, 4.5f - (i + 1) * 1.0f, -1);
                 }
                 else
                 {
-                    cpos_y = i;
-                    pos = new Vector3(pos.x, 3.6f - i * 0.632f, -1);
+                    pos = new Vector3(pos.x, 4.5f - i * 1.0f, -1);
                 }
                 return;
             }
         }
     }
 
-    void reset_x(Vector2 pos)
+    void reset_x(Vector3 pos)
     {
         for (int i = 0; i < CBackground.map_width; i++)
         {
-            if (pos.x >= -4.8f + i * 0.632f
-                && pos.x < -4.8f + (i + 1) * 0.632f)
+            if (pos.x >= -4.5f + i * 1.0f
+                && pos.x < -4.5f + (i + 1) * 1.0f)
             {
-                if (pos.x + 4.8f - i * 0.632f > 4.8f + (i + 1) * 0.632f - pos.x)
+                if (pos.x + 4.5f - i * 1.0f > 4.5f + (i + 1) * 1.0f - pos.x)
                 {
-                    Debug.Log("@@@@@@@@ 111 4.8f + (i + 1) * 0.632f = " + 4.8f + (i + 1) * 0.632f);
-                    cpos_x = i - 1;
-                    pos = new Vector3(-4.8f + (i + 1) * 0.632f, pos.y, -1);
                 }
                 else
                 {
-                    cpos_x = i;
-                    Debug.Log("@@@@@@@@ 222 4.8f + i * 0.632f = " + 4.8f + i * 0.632f);
-                    pos = new Vector3(-4.8f + i * 0.632f, pos.y, -1);
                 }
                 return;
             }
         }
     }
-*/
     public void create_wball()
     {
         Vector3 pos = this.transform.position;
@@ -170,7 +162,9 @@ public class CPlayer : MonoBehaviour
                 break;
             }
         }
+		
         Debug.Log("CreateBall ");
+		CBackground.map[cpos_y, cpos_x] = 2;
         Instantiate(static_wball, new Vector3(pos.x, pos.y), player.transform.rotation);
     }
 
@@ -216,6 +210,7 @@ public class CPlayer : MonoBehaviour
     }
     void player_move(PLAYER_DIRECTION dir)
     {
+		changeDirect(dir);
         var r = this.GetComponent<Rigidbody2D>();
         if (dir == PLAYER_DIRECTION.RIGHT)
         {
@@ -277,6 +272,24 @@ public class CPlayer : MonoBehaviour
         }
         direct = dir;
     }
+
+	void changeDirect(PLAYER_DIRECTION dir)
+	{
+		if (dir != direct)
+		{
+			direct = dir;
+			if (direct == PLAYER_DIRECTION.RIGHT || direct == PLAYER_DIRECTION.LEFT)
+			{
+                Debug.Log("before gameObject.transform.position = " + gameObject.transform.position);
+				reset_y(gameObject.transform.position);
+                Debug.Log("after gameObject.transform.position = " + gameObject.transform.position);
+            }
+			else if (direct == PLAYER_DIRECTION.UP || direct == PLAYER_DIRECTION.DOWN)
+			{
+	//			reset_x(Vector3 pos);
+			}
+		}
+	}
 
     void Update ()
     {
@@ -365,15 +378,17 @@ public class CPlayer : MonoBehaviour
 
     bool restricted_area(float x, float y, PLAYER_DIRECTION dir)
     {
-        return false;
-        /*
+		Debug.Log("x, y =" + x + " " +  y);
+		int array_x = (int)x, array_y = (int)y;
         switch (direct)
         {
             case PLAYER_DIRECTION.UP:
                 y+=speed; 
+				array_y = (int)(4.5f-y);
                 break;
             case PLAYER_DIRECTION.DOWN:
                 y-=speed;
+				array_y = (int)(4.5f-y+PLAYER_SIZE);
                 break;
             case PLAYER_DIRECTION.RIGHT:
                 x+=speed;
@@ -384,59 +399,15 @@ public class CPlayer : MonoBehaviour
             default:
                 break;
         }
-        float array_x = (float)((x+7.5f)/1.0f);
-        float array_y = (float)((4.5f-y)/1.0f);
-        Debug.Log("@@@@@@@ x = " + x + ", y = " + y);
-        Debug.Log("@@@@@@@ array_x = " + array_x + ", array_y = " + array_y);
-        switch (direct)
-        {
-            case PLAYER_DIRECTION.UP:
-            case PLAYER_DIRECTION.DOWN:
-                if ((int)((x + 4.8f) % 0.632f) != 0)
-                {
-                    if (CBackground.map[(int)array_y, (int)array_x] == 1 || CBackground.map[(int)array_y, (int)array_x+1] == 1)
-                    {
-                        Debug.Log("@@@@@@@ don't go");
-                        return true;
-                    }
-                }
-                else
-                {
-                    if (CBackground.map[(int)array_y, (int)array_x] == 1)
-                    {
-                        Debug.Log("@@@@@@@ don't go");
-                        return true;
-                    }
-                }
-                break;
-            case PLAYER_DIRECTION.RIGHT:
-            case PLAYER_DIRECTION.LEFT:
-                if ((int)((3.4f - y) % 0.632f) != 0)
-                {
-                    Debug.Log("@@@@@@@ hahaha");
-                    if (CBackground.map[(int)array_y, (int)array_x] == 1 || CBackground.map[(int)array_y+1, (int)array_x] == 1)
-                    {
-                        Debug.Log("@@@@@@@ right diff don't go");
-                        return true;
-                    }
-                }
-                else
-                {
-                    Debug.Log("@@@@@@@ hehehe(int)array_y = " + (int)array_y);
-                    if (CBackground.map[(int)array_y+1, (int)array_x] == 1)
-                    {
-                        Debug.Log("@@@@@@@ right don't go");
-                        return true;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-        Debug.Log("@@@@@@@ x = " + x + ", y = " + y);
-        Debug.Log("@@@@@@@ array_x = " + array_x + ", array_y = " + array_y);
-        
-        return false;*/
+		array_y = (int)(4.5f-y+PLAYER_SIZE);
+        array_x = (int)(x+7.5f+PLAYER_SIZE);
+        Debug.Log("after @@@@@@@ x = " + array_x + ", y = " + array_y);
+		if (CBackground.map[(int)array_y, (int)array_x] != 0)
+		{
+			Debug.Log("@@@@@ don't go");
+			return true;
+		}
+        return false;
     }
 
     public class PlayerData
