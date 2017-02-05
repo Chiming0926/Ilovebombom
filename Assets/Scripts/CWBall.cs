@@ -13,7 +13,7 @@ public class CWBall : MonoBehaviour
     private const int reset_factor = 5;
     private int pic = 0;
     private int cnt = 0;
-    public int power = 1;
+    public int power = 4;
     // Use this for initialization
     void Start ()
     {
@@ -46,6 +46,16 @@ public class CWBall : MonoBehaviour
         }
     }
 
+	bool map_out_of_range(int x, int y)
+	{
+		if (x < 0 || y < 0 || x > 15 || y > 9)
+		{
+			Debug.Log("wball out of ramge x = " + x + " y = " + y);
+			return true;
+		}
+		return false;
+	}
+
     void destroy_obstacle(Vector2 pos)
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(pos, new Vector2(0.1f, 0.1f), 0.0f);
@@ -56,7 +66,18 @@ public class CWBall : MonoBehaviour
 				/* Send death message */
 				continue;
             }
-            Destroy(collider.gameObject);   
+			if (collider.tag == "flag")
+            {
+				/* don't destroy */
+				continue;
+            }
+			/* update the map */
+			int array_y = (int)(4.5f - collider.gameObject.transform.position.y);
+        	int array_x = (int)(collider.gameObject.transform.position.x +7.5f);
+			//if (map_out_of_range(array_x, array_y))
+			//	continue;
+			//CBackground.map[array_y, array_x] = 0;
+            Destroy(collider.gameObject);
         }
     }
 

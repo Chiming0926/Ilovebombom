@@ -110,6 +110,7 @@
   <ItemGroup>
     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
     <None Include="Assets\Scripts\Logo\FacebookSDK\link.xml" />
+    <None Include="Assets\Textures\Level_Pirate_ship\地圖介紹.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

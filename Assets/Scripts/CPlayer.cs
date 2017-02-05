@@ -15,7 +15,7 @@ public class CPlayer : MonoBehaviour
         NULL   = 4
     };
 
-	private const float PLAYER_SIZE = 0.5f;
+	private const float PLAYER_SIZE = 0.8f;
 
     private const int KEYBOARD_TEST = 1;
     public GameObject water_ball;
@@ -38,6 +38,7 @@ public class CPlayer : MonoBehaviour
         direct = PLAYER_DIRECTION.NULL;
         player = gameObject;
         static_wball = water_ball;
+		wball_cnt = 0;
     }
 
     void set_player_pic(PLAYER_DIRECTION dir)
@@ -91,7 +92,6 @@ public class CPlayer : MonoBehaviour
             if (pos.y <= 4.5f - i*1.0f
                 && pos.y > 4.5f - (i+1) * 1.0f)
             {
-                Debug.Log("@@@@@@@ reset y ");
                 if (4.5f - i * 1.0f - pos.y > pos.y - 4.5f + (i + 1) * 1.0f)
                 {
                     pos = new Vector3(pos.x, 4.5f - (i + 1) * 1.0f, -1);
@@ -122,10 +122,21 @@ public class CPlayer : MonoBehaviour
             }
         }
     }
+
+	bool map_out_of_range(int x, int y)
+	{
+		if (x < 0 || y < 0 || x > 15 || y > 9)
+		{
+			Debug.Log("out of ramge x = " + x + " y = " + y);
+			return true;
+		}
+		return false;
+	}
+	
     public void create_wball()
     {
         Vector3 pos = this.transform.position;
-        for (int i = 0; i < CBackground.map_height; i++)
+    /*    for (int i = 0; i < CBackground.map_height; i++)
         {
             if (pos.y <= 4.5f - i * 1.0f
                 && pos.y > 4.5f - (i + 1) * 1.0f)
@@ -162,10 +173,19 @@ public class CPlayer : MonoBehaviour
                 break;
             }
         }
+*/
+		int array_y = (int)(4.5f - pos.y + PLAYER_SIZE);
+        int array_x = (int)(pos.x + 7.5f + PLAYER_SIZE);
 		
-        Debug.Log("CreateBall ");
-		CBackground.map[cpos_y, cpos_x] = 2;
-        Instantiate(static_wball, new Vector3(pos.x, pos.y), player.transform.rotation);
+		if (map_out_of_range(array_x, array_y ))
+		{
+			wball_cnt--;
+			return;
+		}
+		CBackground.map[array_y, array_x] = 2;
+
+		
+        Instantiate(static_wball, new Vector3(-7.5f + array_x , 4.5f - array_y), player.transform.rotation);
     }
 
     public void BeginMove()
@@ -280,9 +300,7 @@ public class CPlayer : MonoBehaviour
 			direct = dir;
 			if (direct == PLAYER_DIRECTION.RIGHT || direct == PLAYER_DIRECTION.LEFT)
 			{
-                Debug.Log("before gameObject.transform.position = " + gameObject.transform.position);
 				reset_y(gameObject.transform.position);
-                Debug.Log("after gameObject.transform.position = " + gameObject.transform.position);
             }
 			else if (direct == PLAYER_DIRECTION.UP || direct == PLAYER_DIRECTION.DOWN)
 			{
@@ -320,6 +338,7 @@ public class CPlayer : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Space))
         {
+			Debug.Log("push space btn wball_cnt = " + wball_cnt);
             if (wball_cnt < 1)
             {
                 create_wball();
@@ -371,6 +390,7 @@ public class CPlayer : MonoBehaviour
 
     public static void wball_destroy()
     {
+		Debug.Log("@@@@@@@@@@@@ wball_destroy wball_cnt = " + wball_cnt);
         wball_cnt--;
         if (wball_cnt < 0)
             wball_cnt = 0;
@@ -378,13 +398,14 @@ public class CPlayer : MonoBehaviour
 
     bool restricted_area(float x, float y, PLAYER_DIRECTION dir)
     {
-		Debug.Log("x, y =" + x + " " +  y);
+		return false;
+		/*
 		int array_x = (int)x, array_y = (int)y;
         switch (direct)
         {
             case PLAYER_DIRECTION.UP:
                 y+=speed; 
-				array_y = (int)(4.5f-y);
+				array_y = (int)(4.5f-y+PLAYER_SIZE);
                 break;
             case PLAYER_DIRECTION.DOWN:
                 y-=speed;
@@ -401,13 +422,14 @@ public class CPlayer : MonoBehaviour
         }
 		array_y = (int)(4.5f-y+PLAYER_SIZE);
         array_x = (int)(x+7.5f+PLAYER_SIZE);
-        Debug.Log("after @@@@@@@ x = " + array_x + ", y = " + array_y);
+		if (map_out_of_range(array_x, array_y))
+			return true;
 		if (CBackground.map[(int)array_y, (int)array_x] != 0)
 		{
-			Debug.Log("@@@@@ don't go");
 			return true;
 		}
         return false;
+        */
     }
 
     public class PlayerData
