@@ -22,13 +22,16 @@ public class CWBall : MonoBehaviour
 	
     void create_ws()
     {
-        int i = 0;
-        for (i = 0; i < power; i++)
+		var up   = ws_up.GetComponent<SpriteRenderer>();
+		var down = ws_down.GetComponent<SpriteRenderer>();
+		for (int i = 0; i < power; i++)
         {
+			up.sortingOrder = 18;
+			down.sortingOrder = 18;
             Instantiate(ws_up, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (i + 1), 0), gameObject.transform.rotation);
-            Instantiate(ws_down, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (i - 1), 0), gameObject.transform.rotation);
+            Instantiate(ws_down, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (-1-i), 0), gameObject.transform.rotation);
             Instantiate(ws_right, new Vector3(gameObject.transform.position.x + 1.0f * (i + 1), gameObject.transform.position.y, 0), gameObject.transform.rotation);
-            Instantiate(ws_left, new Vector3(gameObject.transform.position.x + 1.0f * (i - 1), gameObject.transform.position.y, 0), gameObject.transform.rotation);
+            Instantiate(ws_left, new Vector3(gameObject.transform.position.x + 1.0f * (-1 - i), gameObject.transform.position.y, 0), gameObject.transform.rotation);
         }
     }
 
@@ -40,9 +43,9 @@ public class CWBall : MonoBehaviour
         for (int i=0; i<power; i++)
         {
             destroy_obstacle(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (i + 1)));
-            destroy_obstacle(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (i - 1)));
+            destroy_obstacle(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (-1-i)));
             destroy_obstacle(new Vector2(gameObject.transform.position.x + 1.0f * (i + 1), gameObject.transform.position.y));
-            destroy_obstacle(new Vector2(gameObject.transform.position.x + 1.0f * (i - 1), gameObject.transform.position.y));
+            destroy_obstacle(new Vector2(gameObject.transform.position.x + 1.0f * (-1-i), gameObject.transform.position.y));
         }
     }
 

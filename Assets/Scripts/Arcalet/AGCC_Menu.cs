@@ -26,7 +26,7 @@ public partial class AGCC {
 			int length = list.Count;
 			length = Mathf.Clamp(length, 0, 20);
 			
-			int type = (int)token;
+		//	int type = (int)token;
 			for(int i=0; i < length; i++) {
 		//		OXGame.leaderBoard[type, i].account = list[i]["userid"].ToString();
 		//		OXGame.leaderBoard[type, i].nickname = list[i]["nickname"].ToString();
@@ -58,7 +58,7 @@ public partial class AGCC {
 	//	menu.store.gameObject.SetActive(false);
 	//	menu.uiState = MenuType.Loading;
 		
-		ArcaletItem.GetMallURL(ag, 0, "", CB_GetMallURL, null);			
+	//	ArcaletItem.GetMallURL(ag, 0, "", CB_GetMallURL, null);			
 	}
 	
 	void CB_GetMallURL(int code, object data, object token)

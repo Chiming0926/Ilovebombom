@@ -45,11 +45,13 @@ public partial class AGCC {
 		Debug.Log("ArcaletLaunch");
 		if(ag!=null)
 			ag.Dispose();
+		Debug.Log("ArcaletLaunch1");
 		m_username  = username;
 		m_password  = password;
 		m_email	    = email;
-	//	ag = new ArcaletGame(username, password, gguid, sguid, certificate );
-		ag = new ArcaletGame("bbhappy010", "12345678", gguid, sguid, certificate );
+		ag = new ArcaletGame(username, password, gguid, sguid, certificate );
+		Debug.Log("ArcaletLaunch 2");
+	//	ag = new ArcaletGame("bbhappy010", "12345678", gguid, sguid, certificate );
 		ag.onMessageIn += MainMessageIn;
 		ag.onPrivateMessageIn += PrivateMessageIn;
 		ag.onCompletion += CB_ArcaletLaunch;		
@@ -59,6 +61,7 @@ public partial class AGCC {
 	//callback function
 	void CB_ArcaletLaunch(int code, ArcaletGame game)
 	{	
+		Debug.Log("CB_ArcaletLaunch");
 		if(code==0) {
 			Debug.Log("ArcaletLaunch Successed");
             SceneManager.LoadScene("lobby");

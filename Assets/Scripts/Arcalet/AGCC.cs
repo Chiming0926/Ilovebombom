@@ -37,6 +37,8 @@ public partial class AGCC : MonoBehaviour {
 	public ServerSettings serverSettings = new ServerSettings();
 	
 	#endregion
+
+	internal PlayerInfo m_PlayerInfo = new PlayerInfo();
 	
 	// Use this for initialization
 	void Start () 
@@ -131,6 +133,11 @@ public partial class AGCC : MonoBehaviour {
 		if(ag==null) return;
 		ag.Dispose();
 	}
+
+	internal void setFBUserId(string id)
+	{
+		m_PlayerInfo.fbUserId = id;
+	}
 }
 
 [System.Serializable]
@@ -150,7 +157,7 @@ public class PlayerInfo
     public int lose = 0;
     public int draw = 0;
     public string winRate = "0%";
-
+	public string fbUserId = "";
     internal void SetWinRate()
     {
         if (win == 0) winRate = "0%";

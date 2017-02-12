@@ -338,7 +338,6 @@ public class CPlayer : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Space))
         {
-			Debug.Log("push space btn wball_cnt = " + wball_cnt);
             if (wball_cnt < 1)
             {
                 create_wball();

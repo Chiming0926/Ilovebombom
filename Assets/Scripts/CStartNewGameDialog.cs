@@ -24,7 +24,6 @@ public class CStartNewGameDialog : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Clsoe start new game dialog");
             foreach (Transform child in transform)
             {
                 child.GetComponent<Renderer>().enabled = false;

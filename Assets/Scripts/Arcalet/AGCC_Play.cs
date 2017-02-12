@@ -1,21 +1,38 @@
 using UnityEngine;
 using System;
 using System.Collections;
-
+using Facebook.Unity;
 
 public partial class AGCC {
 		
 	internal ArcaletScene sn = null;
 	
 	public MatchInfo matchInfos = new MatchInfo();
-
-    //   GameManager game = null;
+	IEnumerator GetImageAndShow() 
+	{
+        Debug.Log("@@@@@@@@@@@@@@ 1");
+        WWW www = new WWW("https://graph.facebook.com/" + m_PlayerInfo.fbUserId + "/picture?type=large"); 
+        yield return www;
+		GameObject obj = GameObject.Find ("player01");
+		if (obj != null)
+		{
+            //TextureScale.Bilinear(www.texture, obj.GetComponent<SpriteRenderer>().sprite.texture.width, obj.GetComponent<SpriteRenderer>().sprite.texture.height);
+            TextureScale.Bilinear(www.texture, 1000, 1000);
+            Debug.Log("@@@@@@@@@@@@@@ 1 obj.GetComponent<SpriteRenderer>().sprite.texture.width = " + www.texture.width);
+            Debug.Log("@@@@@@@@@@@@@@ 2 obj.GetComponent<SpriteRenderer>().sprite.texture.width = " + obj.GetComponent<SpriteRenderer>().sprite.texture.width);
+            Sprite s = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector3(0.5f, 0.5f, 0));
+            obj.GetComponent<SpriteRenderer>().sprite = s;
+        }
+    }
 
     internal void Match()
     {
+		Debug.Log("@@@@@@@@@@@@@@ Match 1");
         matchInfos.GenerateMatchCode();
+		StartCoroutine(GetImageAndShow());
         string msg = ag.gameUserid + "/" + ag.poid + "/" + "test520" + "/" + matchInfos.matchCode;
         ag.PrivacySend("match:" + msg, serverSettings.dpPoid);
+		Debug.Log("@@@@@@@@@@@@@@ Match 2");
     }
 
     void DP_Room(string msg) 

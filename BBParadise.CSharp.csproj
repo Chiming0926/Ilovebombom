@@ -106,6 +106,7 @@
     <Compile Include="Assets\Scripts\Logo\FacebookSDK\Examples\Scripts\SubMenus\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Logo\FacebookSDK\Examples\Scripts\SubMenus\Pay.cs" />
     <Compile Include="Assets\Scripts\Logo\Logo.cs" />
+    <Compile Include="Assets\Scripts\TextureScale.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />

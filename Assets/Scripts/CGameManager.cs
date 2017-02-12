@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class CGameManager : MonoBehaviour {
 
@@ -192,6 +193,7 @@ public class CGameManager : MonoBehaviour {
 
 	internal void handle_game_over(string msg)
 	{
-			
+		m_agcc.SceneGameOver();
+		SceneManager.LoadScene("lobby");
 	}
 }

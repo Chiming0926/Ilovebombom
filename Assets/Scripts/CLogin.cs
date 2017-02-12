@@ -120,8 +120,7 @@ public class CLogin : MonoBehaviour
             user_account = md5.Substring(16, 10);
             Debug.Log("user_account = " + user_account + ", user_password = " + user_password);
             m_agcc.ArcaletLaunch(user_account, user_password, user_mail);
-
-
+			m_agcc.setFBUserId(result.ResultDictionary["id"].ToString());
         }
     }
 
