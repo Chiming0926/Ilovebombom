@@ -79,6 +79,7 @@ public partial class AGCC : MonoBehaviour {
 				case "dp_new": GetPlayerInfos(cmds[1]); break;
 				case "dp_room": DP_Room(cmds[1]); break;
 				case "dp_rematch": ReMatch(cmds[1]); break;
+				case "bb_match_data": UpdateMatchData(cmds[1]); break;
 			//	case "dp_update": OXGame.UpdatePlayerInfos(cmds[1]); break;
             }
         }
