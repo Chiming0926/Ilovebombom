@@ -12,21 +12,22 @@ public partial class AGCC {
 	IEnumerator GetImageAndShow(string msg) 
 	{
 		string[] m = msg.Split('/');
-		for (int i=0; i<6; i++)
-		{
-			if (m[i] != null)
+		int i = 0;
+		foreach (string s in m)
+        {
+			if (s.Length == 0)
+				break;
+            WWW www = new WWW("https://graph.facebook.com/" + s + "/picture?type=large"); 
+        	yield return www;
+			string objName = "player" + (i+1).ToString("00");
+			GameObject obj = GameObject.Find (objName);
+			if (obj != null)
 			{
-	        	WWW www = new WWW("https://graph.facebook.com/" + m[i] + "/picture?type=large"); 
-	        	yield return www;
-				string objName = "player" + (i+1).ToString("00");
-				GameObject obj = GameObject.Find (objName);
-				if (obj != null)
-				{
-	            	Sprite s = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector3(0.5f, 0.5f, 0));
-	            	obj.GetComponent<SpriteRenderer>().sprite = s;
-	        	}
-			}
-		}
+            	Sprite sp = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector3(0.5f, 0.5f, 0));
+            	obj.GetComponent<SpriteRenderer>().sprite = sp;
+        	}
+			i++;
+        }
     }
 
 	internal void UpdateMatchData(string msg)
