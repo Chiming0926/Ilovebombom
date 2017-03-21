@@ -22,16 +22,15 @@ public class CLogin : MonoBehaviour
                             0xfa, 0x48, 0xeb, 0x5b, 0xaf, 0xd1, 0x64, 0x20, 0x3d, 0x49, 0xa5, 0xbc, 0x40,
                             0x89, 0xa2, 0xb6, 0xc5, 0x6f, 0xd6, 0xac, 0xfe, 0x2f, 0x92, 0x4d, 0xbc, 0x3f,
                             0xbd, 0x4b, 0x4d, 0x90, 0xf8, 0x50, 0xf2, 0x2, 0x16, 0x75, 0xd4 };
-    ArcaletGame ag = null;
+    AGCC m_agcc = null;
 
     public GUISkin myskin = null;
     // Use this for initialization
     void Start ()
     {
-        ArcaletSystem.UnityEnvironment();
-
         FB.Init(init_complete);
-        Debug.Log("token = " + AccessToken.CurrentAccessToken.TokenString);
+        m_agcc = FindObjectOfType(typeof(AGCC)) as AGCC;
+		if(m_agcc == null) return;
     }
 
     void init_complete()
@@ -45,56 +44,12 @@ public class CLogin : MonoBehaviour
 
     int fb_login = 0;
 
-    void CB_Regist(int code, object token)
-    {
-        if (code == 0)
-        {
-            /* regist sucessful */
-            string[] reg = token as string[];
-            string acc = reg[0];
-            string pw = reg[1];
-            string mail = reg[2];
-            Debug.Log("Regist Successed - Account:" + acc + " / Password:" +
-             pw + " E-Mail" + mail);
-
-            //    if (autoLogin) ArcaletLaunch(acc, pw);
-        }
-        else
-        {
-            Debug.LogWarning("Regist Failed - Error:" + code);
-        }
-    }
-
-    void CB_ArcaletLaunch(int code, ArcaletGame game)
-    {
-        if (code == 0)
-        {
-            Debug.Log("Login Successed");
-        }
-        else
-        {
-            Debug.LogWarning("Login Failed - Code:" + code);
-            if (fb_login == 1)
-            {
-                string[] registToken = new string[] { user_account, user_password, user_mail };
-                ArcaletSystem.ApplyNewUser(gguid, certificate, user_account, user_password,
-                 user_mail, CB_Regist, registToken);
-            }
-        }
-    }
-
-    void ArcaletLaunch(string username, string password)
-    {
-        ag = new ArcaletGame(username, password, gguid, sguid, certificate);
-        ag.onCompletion += CB_ArcaletLaunch;
-        ag.Launch();
-    }
-
     string str_acc = "";
     string str_pw = "";
 
     void OnGUI()
     {
+#if LOGIN_UI       
         int box_width = 500; 
         int box_height = 300;
         GUI.skin = myskin;
@@ -111,18 +66,30 @@ public class CLogin : MonoBehaviour
         if (GUI.Button(new Rect(start_x + 70, start_y + 165, 180, 30), "Login"))
         {
             fb_login = 0;
-            ArcaletLaunch(str_acc, str_pw);
         }
 
         if (GUI.Button(new Rect(start_x + 290, start_y + 165, 180, 30), "Register"))
         {
             SceneManager.LoadSceneAsync("Register");
-        }
+        }*/
         if (GUI.Button(new Rect(start_x + 70, start_y + 215, 400, 30), "Facebook Login"))
         {
+			if(m_agcc == null) Debug.Log("@@@@@@@@@@@@@ agcc = null"); 
+			Debug.Log("@@@@@@@@@@@@@ >< ");
             fb_login = 1;
+			//m_agcc.ArcaletLaunch(user_account, user_password, user_mail);
+		
             FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, fb_login_callback);
         }
+#endif
+    }
+
+    internal void onFBLoingOnClick()
+    {
+        if (m_agcc == null) AGCC.BBDebug(AGCC.BBDEBUG_ERROR, "failed to initial agcc");
+        AGCC.BBDebug(AGCC.BBDEBUG_INFO, "facebook loggin");
+        fb_login = 1;
+        FB.LogInWithPublishPermissions(new List<string>() { "public_profile", "email", "user_friends" }, fb_login_callback);
     }
 
     void fb_login_callback(IResult result)
@@ -151,7 +118,9 @@ public class CLogin : MonoBehaviour
             user_mail = result.ResultDictionary["email"].ToString();
             user_password = md5.Substring(16, 16);
             user_account = md5.Substring(16, 10);
-            ArcaletLaunch(user_account, user_password);
+            Debug.Log("user_account = " + user_account + ", user_password = " + user_password);
+            m_agcc.ArcaletLaunch(user_account, user_password, user_mail);
+			m_agcc.setFBUserId(result.ResultDictionary["id"].ToString());
         }
     }
 
@@ -175,5 +144,13 @@ public class CLogin : MonoBehaviour
             Debug.Log("Can't get user's email");
         }
         return null;
+    }
+
+    void OnMouseDown()
+    {
+        if (gameObject.tag == "fb_login")
+        {
+            AGCC.BBDebug(AGCC.BBDEBUG_INFO, "Push FB Login Button");
+        }
     }
 }

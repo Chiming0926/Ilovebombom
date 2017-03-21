@@ -25,6 +25,8 @@ public class CRoleDialog : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (gameObject.GetComponent<Renderer>().enabled == false)
+            return;
         if (gameObject.tag == "role_dialog_close")
         {
             CLobby_OnClick.show_role_dialog = 0;

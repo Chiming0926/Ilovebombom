@@ -13,7 +13,7 @@ public class CWBall : MonoBehaviour
     private const int reset_factor = 5;
     private int pic = 0;
     private int cnt = 0;
-    public int power = 1;
+    public int power = 4;
     // Use this for initialization
     void Start ()
     {
@@ -22,13 +22,16 @@ public class CWBall : MonoBehaviour
 	
     void create_ws()
     {
-        int i = 0;
-        for (i = 0; i < power; i++)
+		var up   = ws_up.GetComponent<SpriteRenderer>();
+		var down = ws_down.GetComponent<SpriteRenderer>();
+		for (int i = 0; i < power; i++)
         {
+			up.sortingOrder = 18;
+			down.sortingOrder = 18;
             Instantiate(ws_up, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (i + 1), 0), gameObject.transform.rotation);
-            Instantiate(ws_down, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (i - 1), 0), gameObject.transform.rotation);
+            Instantiate(ws_down, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (-1-i), 0), gameObject.transform.rotation);
             Instantiate(ws_right, new Vector3(gameObject.transform.position.x + 1.0f * (i + 1), gameObject.transform.position.y, 0), gameObject.transform.rotation);
-            Instantiate(ws_left, new Vector3(gameObject.transform.position.x + 1.0f * (i - 1), gameObject.transform.position.y, 0), gameObject.transform.rotation);
+            Instantiate(ws_left, new Vector3(gameObject.transform.position.x + 1.0f * (-1 - i), gameObject.transform.position.y, 0), gameObject.transform.rotation);
         }
     }
 
@@ -40,11 +43,21 @@ public class CWBall : MonoBehaviour
         for (int i=0; i<power; i++)
         {
             destroy_obstacle(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (i + 1)));
-            destroy_obstacle(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (i - 1)));
+            destroy_obstacle(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 1.0f * (-1-i)));
             destroy_obstacle(new Vector2(gameObject.transform.position.x + 1.0f * (i + 1), gameObject.transform.position.y));
-            destroy_obstacle(new Vector2(gameObject.transform.position.x + 1.0f * (i - 1), gameObject.transform.position.y));
+            destroy_obstacle(new Vector2(gameObject.transform.position.x + 1.0f * (-1-i), gameObject.transform.position.y));
         }
     }
+
+	bool map_out_of_range(int x, int y)
+	{
+		if (x < 0 || y < 0 || x > 15 || y > 9)
+		{
+			Debug.Log("wball out of ramge x = " + x + " y = " + y);
+			return true;
+		}
+		return false;
+	}
 
     void destroy_obstacle(Vector2 pos)
     {
@@ -52,8 +65,22 @@ public class CWBall : MonoBehaviour
         foreach (Collider2D collider in colliders)
         {
             if (collider.tag == "Player")
-                continue;
-            Destroy(collider.gameObject);   
+            {
+				/* Send death message */
+				continue;
+            }
+			if (collider.tag == "flag")
+            {
+				/* don't destroy */
+				continue;
+            }
+			/* update the map */
+			int array_y = (int)(4.5f - collider.gameObject.transform.position.y);
+        	int array_x = (int)(collider.gameObject.transform.position.x +7.5f);
+			//if (map_out_of_range(array_x, array_y))
+			//	continue;
+			//CBackground.map[array_y, array_x] = 0;
+            Destroy(collider.gameObject);
         }
     }
 
